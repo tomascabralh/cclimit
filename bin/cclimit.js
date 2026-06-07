@@ -62,7 +62,7 @@ async function main() {
       payload = {};
     }
     const config = loadConfig();
-    if (process.env.NO_COLOR) config.color = false;
+    if (process.env.NO_COLOR != null) config.color = false;
     process.stdout.write(render(payload, config, Date.now() / 1000));
     return;
   }
