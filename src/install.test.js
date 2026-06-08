@@ -50,6 +50,14 @@ describe("install", () => {
     expect(res.ok).toBe(true);
     expect(JSON.parse(readFileSync(settings, "utf8")).statusLine.command).toBe(CMD);
   });
+
+  it("overwrites an old-format cclimit command without force (upgrade path)", () => {
+    const old = "C:\\Program Files\\nodejs\\node.exe C:\\Users\\me\\cclimit.js statusline";
+    writeFileSync(settings, JSON.stringify({ statusLine: { type: "command", command: old } }));
+    const res = install({ settings, command: CMD });
+    expect(res.ok).toBe(true);
+    expect(JSON.parse(readFileSync(settings, "utf8")).statusLine.command).toBe(CMD);
+  });
 });
 
 describe("uninstall", () => {

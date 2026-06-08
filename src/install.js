@@ -6,6 +6,13 @@ export function settingsPath() {
   return join(configDir(), "settings.json");
 }
 
+// True if a statusLine command is one cclimit wrote (any version/format).
+// Lets us overwrite our own older entry on upgrade without forcing, while
+// still guarding a genuinely different third-party statusLine.
+export function isCclimitCommand(cmd) {
+  return typeof cmd === "string" && /cclimit/i.test(cmd);
+}
+
 const realFs = {
   exists: existsSync,
   read: (p) => readFileSync(p, "utf8"),
@@ -26,7 +33,7 @@ export function install({ settings = settingsPath(), command, force = false, fs 
     backedUp = true;
   }
   const existing = current.statusLine?.command;
-  if (existing && existing !== command && !force) {
+  if (existing && existing !== command && !isCclimitCommand(existing) && !force) {
     return { ok: false, reason: "exists", existing };
   }
   current.statusLine = { type: "command", command, padding: 0 };
@@ -42,7 +49,8 @@ export function uninstall({ settings = settingsPath(), command, fs = realFs }) {
   } catch {
     throw new Error(`Cannot parse ${settings} - fix or remove it and retry.`);
   }
-  if (current.statusLine && (!command || current.statusLine.command === command)) {
+  const existing = current.statusLine?.command;
+  if (current.statusLine && (!command || existing === command || isCclimitCommand(existing))) {
     delete current.statusLine;
     fs.write(settings, JSON.stringify(current, null, 2) + "\n");
     return { ok: true, removed: true };

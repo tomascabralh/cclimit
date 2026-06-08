@@ -9,9 +9,11 @@ const require = createRequire(import.meta.url);
 const { version: VERSION } = require("../package.json");
 const BIN = fileURLToPath(import.meta.url);
 
-// the exact command cclimit writes into settings.json
+// the exact command cclimit writes into settings.json.
+// Both paths are quoted so spaces survive (e.g. Windows
+// "C:\Program Files\nodejs\node.exe" or a user dir with a space).
 function statuslineCommand() {
-  return `${process.execPath} ${BIN} statusline`;
+  return `"${process.execPath}" "${BIN}" statusline`;
 }
 
 const HELP = `cclimit - credential-free Claude Code plan-limit status line
