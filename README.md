@@ -22,13 +22,14 @@ present then; with an API key the line shows `(no plan data)`).
 ## Install
 
 ```bash
-npx cclimit install
+npx @tomascabralh/cclimit install
 ```
 
 This adds a `statusLine` entry to `~/.claude/settings.json` (existing settings are
-backed up to `settings.json.bak`). Open a new Claude Code session to see it.
+backed up to `settings.json.bak`). Open a new Claude Code session to see it. The
+installed command is just `cclimit`.
 
-Remove it with `npx cclimit uninstall`.
+Remove it with `npx @tomascabralh/cclimit uninstall`.
 
 ## Configuration
 
