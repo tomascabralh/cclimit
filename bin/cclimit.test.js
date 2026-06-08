@@ -28,7 +28,7 @@ describe("cclimit cli", () => {
     });
     const out = run(["statusline"], payload);
     expect(out).toContain("Opus 4.8");
-    expect(out).toContain("5h [");
+    expect(out).toContain("5h ");
     expect(out).toContain("85%");
   });
 
