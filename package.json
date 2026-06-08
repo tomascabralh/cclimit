@@ -1,12 +1,16 @@
 {
-  "name": "cclimit",
+  "name": "@tomascabralh/cclimit",
   "version": "0.1.0",
-  "description": "Credential-free Claude Code status line: plan-limit usage (5h/7d) with burn-rate projection. No token, no Keychain, no network.",
+  "description": "Credential-free Claude Code status line: plan-limit usage (5h/7d), context, git branch and session cost. No token, no Keychain, no network.",
   "type": "module",
   "bin": { "cclimit": "bin/cclimit.js" },
-  "files": ["bin", "src", "README.md", "LICENSE"],
   "engines": { "node": ">=18" },
-  "scripts": { "test": "vitest run", "test:watch": "vitest" },
+  "publishConfig": { "access": "public" },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "vitest run"
+  },
   "keywords": ["claude-code", "statusline", "usage", "rate-limit", "cli"],
   "repository": { "type": "git", "url": "git+https://github.com/tomascabralh/cclimit.git" },
   "author": "Tomas Cabral Hunter",

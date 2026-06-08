@@ -2,14 +2,20 @@ import { describe, it, expect } from "vitest";
 import { bar, countdown, colorize, severity } from "./format.js";
 
 describe("bar", () => {
-  it("renders empty at 0%", () => expect(bar(0, 8)).toBe("[--------]"));
-  it("renders full at 100%", () => expect(bar(100, 8)).toBe("[########]"));
-  it("rounds 85% of 8 to 7 fills", () => expect(bar(85, 8)).toBe("[#######-]"));
-  it("rounds 8% of 8 to 1 fill", () => expect(bar(8, 8)).toBe("[#-------]"));
+  it("renders empty at 0%", () => expect(bar(0, 8)).toBe("░░░░░░░░"));
+  it("renders full at 100%", () => expect(bar(100, 8)).toBe("████████"));
+  it("rounds 85% of 8 to 7 fills", () => expect(bar(85, 8)).toBe("███████░"));
+  it("rounds 8% of 8 to 1 fill", () => expect(bar(8, 8)).toBe("█░░░░░░░"));
   it("clamps out-of-range and null", () => {
-    expect(bar(150, 8)).toBe("[########]");
-    expect(bar(null, 8)).toBe("[--------]");
+    expect(bar(150, 8)).toBe("████████");
+    expect(bar(null, 8)).toBe("░░░░░░░░");
   });
+  it("supports the ascii style", () => {
+    expect(bar(85, 8, "ascii")).toBe("[#######-]");
+    expect(bar(0, 8, "ascii")).toBe("[--------]");
+  });
+  it("falls back to blocks for an unknown style", () =>
+    expect(bar(100, 8, "nope")).toBe("████████"));
 });
 
 describe("countdown", () => {

@@ -2,3 +2,4 @@ node_modules/
 coverage/
 *.bak
 .DS_Store
+docs/superpowers/

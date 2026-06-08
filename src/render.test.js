@@ -16,22 +16,15 @@ function fullPayload() {
   };
 }
 
-const cfg = (over = {}) => ({ ...DEFAULT_CONFIG, color: false, showProjection: false, ...over });
+const cfg = (over = {}) => ({ ...DEFAULT_CONFIG, color: false, ...over });
 const deps = { gitSegment: () => "main*" };
 
 describe("render", () => {
   it("composes the full default line", () => {
     const out = render(fullPayload(), cfg(), NOW, deps);
     expect(out).toBe(
-      "Opus 4.8 | 5h [#######-] 85% 2h53m | 7d [#-------] 8% 6d18h | ctx 13% | main* | $5.26"
+      "Opus 4.8 | 5h ███████░ 85% 2h53m | 7d █░░░░░░░ 8% 6d18h | ctx 13% | main* | $5.26"
     );
-  });
-
-  it("appends projection warning when enabled and triggered", () => {
-    const p = fullPayload();
-    p.rate_limits.five_hour = { used_percentage: 85, resets_at: NOW + 14400 }; // elapsed 1h
-    const out = render(p, cfg({ showProjection: true }), NOW, deps);
-    expect(out).toContain("! limit ~");
   });
 
   it("shows a single no-plan note when rate_limits is absent", () => {
@@ -41,7 +34,7 @@ describe("render", () => {
     expect(out).toContain("(no plan data - Pro/Max only)");
     expect(out).toContain("Opus 4.8");
     expect(out).toContain("ctx 13%");
-    expect(out).not.toContain("5h [");
+    expect(out).not.toContain("5h ");
   });
 
   it("honors segment selection and order", () => {

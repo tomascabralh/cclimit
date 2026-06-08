@@ -1,9 +1,18 @@
 const COLORS = { green: 32, yellow: 33, red: 31, dim: 2, bold: 1 };
 
-export function bar(percent, width = 8) {
+// Bar styles. "blocks" (default) uses Unicode Block Elements — not emojis, and
+// rendered reliably by terminals. "ascii" stays pure ASCII for the purists.
+const BAR_STYLES = {
+  blocks: { full: "█", empty: "░", open: "", close: "" }, // █ ░
+  ascii: { full: "#", empty: "-", open: "[", close: "]" },
+  dots: { full: "●", empty: "○", open: "", close: "" }, // ● ○
+};
+
+export function bar(percent, width = 8, style = "blocks") {
+  const s = BAR_STYLES[style] || BAR_STYLES.blocks;
   const p = Math.max(0, Math.min(100, percent ?? 0));
   const filled = Math.round((p / 100) * width);
-  return "[" + "#".repeat(filled) + "-".repeat(width - filled) + "]";
+  return s.open + s.full.repeat(filled) + s.empty.repeat(width - filled) + s.close;
 }
 
 export function countdown(secondsUntil) {

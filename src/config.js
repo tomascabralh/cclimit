@@ -6,8 +6,8 @@ export const DEFAULT_CONFIG = {
   segments: ["model", "fivehour", "sevenday", "context", "git", "cost"],
   color: true,
   barWidth: 8,
+  barStyle: "blocks",
   thresholds: { warn: 50, crit: 80 },
-  showProjection: true,
 };
 
 export function configDir() {

@@ -1,6 +1,5 @@
 import { colorize } from "./format.js";
 import { limitSegment } from "./segments/limit.js";
-import { projectionSegment } from "./segments/projection.js";
 import { contextSegment } from "./segments/context.js";
 import { costSegment } from "./segments/cost.js";
 import { gitSegment as realGit } from "./segments/git.js";
@@ -24,22 +23,19 @@ export function render(payload, config, now, deps = {}) {
     },
     fivehour: () => {
       if (!rl.five_hour) return hasLimits ? null : colorize(NO_PLAN, "dim", color);
-      let seg = limitSegment("5h", rl.five_hour, {
+      return limitSegment("5h", rl.five_hour, {
         now,
         barWidth: config.barWidth,
+        barStyle: config.barStyle,
         thresholds: config.thresholds,
         color,
       });
-      if (seg && config.showProjection) {
-        const warn = projectionSegment(rl.five_hour, now);
-        if (warn) seg += " " + colorize(warn, "red", color);
-      }
-      return seg;
     },
     sevenday: () =>
       limitSegment("7d", rl.seven_day, {
         now,
         barWidth: config.barWidth,
+        barStyle: config.barStyle,
         thresholds: config.thresholds,
         color,
       }),

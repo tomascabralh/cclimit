@@ -1,11 +1,11 @@
 # cclimit
 
 A credential-free Claude Code status line that shows how close you are to your
-**plan limits** -- 5-hour and 7-day windows -- with a **burn-rate projection** that
-warns before you hit the wall.
+**plan limits** -- the 5-hour and 7-day windows -- plus context, git branch, and
+session cost.
 
 ```
-Opus 4.8 | 5h [#######-] 85% 2h53m | 7d [#-------] 8% 6d18h | ctx 13% | main* | $5.26
+Opus 4.8 | 5h ███████░ 85% 2h53m | 7d █░░░░░░░ 8% 6d18h | ctx 13% | main* | $5.26
 ```
 
 ## Why cclimit
@@ -13,9 +13,8 @@ Opus 4.8 | 5h [#######-] 85% 2h53m | 7d [#-------] 8% 6d18h | ctx 13% | main* | 
 - **Zero credential access.** Other usage monitors read your OAuth token from the
   Keychain and poll Anthropic's API. cclimit reads **only** the JSON that Claude
   Code already pipes to a status-line command -- no token, no Keychain, no network.
-- **Burn-rate projection.** When your current 5-hour pace will exhaust the limit
-  before it resets, the line appends `! limit ~40m`. It's a linear estimate from
-  the payload, not a guess about your future.
+- **Lightweight and local.** A single zero-dependency Node CLI. It reads nothing
+  but the status-line payload and your own config file.
 
 Requires Claude Code v2.1+ on a **Pro/Max** plan (the plan-limit fields are only
 present then; with an API key the line shows `(no plan data)`).
@@ -23,13 +22,14 @@ present then; with an API key the line shows `(no plan data)`).
 ## Install
 
 ```bash
-npx cclimit install
+npx @tomascabralh/cclimit install
 ```
 
 This adds a `statusLine` entry to `~/.claude/settings.json` (existing settings are
-backed up to `settings.json.bak`). Open a new Claude Code session to see it.
+backed up to `settings.json.bak`). Open a new Claude Code session to see it. The
+installed command is just `cclimit`.
 
-Remove it with `npx cclimit uninstall`.
+Remove it with `npx @tomascabralh/cclimit uninstall`.
 
 ## Configuration
 
@@ -40,12 +40,14 @@ Optional `~/.claude/cclimit.json` (honors `CLAUDE_CONFIG_DIR`):
   "segments": ["model", "fivehour", "sevenday", "context", "git", "cost"],
   "color": true,
   "barWidth": 8,
-  "thresholds": { "warn": 50, "crit": 80 },
-  "showProjection": true
+  "barStyle": "blocks",
+  "thresholds": { "warn": 50, "crit": 80 }
 }
 ```
 
-Set `color: false` (or the `NO_COLOR` env var) to disable ANSI colors.
+- `barStyle`: `"blocks"` (default, `███░░░`), `"ascii"` (`[###---]`), or `"dots"` (`●●●○○○`).
+- `segments`: which segments to show, and in what order.
+- Set `color: false` (or the `NO_COLOR` env var) to disable ANSI colors.
 
 ## What it reads
 
