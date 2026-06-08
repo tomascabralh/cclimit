@@ -7,7 +7,9 @@ export function limitSegment(label, data, { now, barWidth = 8, barStyle = "block
   if (!data || data.used_percentage == null) return null;
   const pct = data.used_percentage;
   const b = bar(pct, barWidth, barStyle);
-  const pctStr = colorize(`${pct}%`, severity(pct, thresholds), color);
+  // Round only for display; the raw value (which can be a float like
+  // 7.000000000000001) still drives the bar and severity color.
+  const pctStr = colorize(`${Math.round(pct)}%`, severity(pct, thresholds), color);
   const reset =
     data.resets_at != null ? " " + countdown(data.resets_at - now) : "";
   return `${label} ${b} ${pctStr}${reset}`;

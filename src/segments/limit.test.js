@@ -14,6 +14,11 @@ describe("limitSegment", () => {
     expect(limitSegment("7d", data, opts())).toBe("7d █░░░░░░░ 8%");
   });
 
+  it("rounds a floating-point percentage for display", () => {
+    const data = { used_percentage: 7.000000000000001 };
+    expect(limitSegment("5h", data, opts())).toBe("5h █░░░░░░░ 7%");
+  });
+
   it("returns null when data missing or has no percentage", () => {
     expect(limitSegment("5h", null, opts())).toBeNull();
     expect(limitSegment("5h", { resets_at: 10 }, opts())).toBeNull();
