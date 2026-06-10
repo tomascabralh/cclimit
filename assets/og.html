@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;600;800&display=swap");
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { width: 1200px; height: 630px; }
+
+  .card {
+    width: 1200px;
+    height: 630px;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, #1c2230 0%, transparent 60%),
+      linear-gradient(160deg, #0d1017 0%, #0a0c12 100%);
+    color: #e6e9ef;
+    font-family: "Inter", system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 84px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* faint grid texture */
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(900px 500px at 30% 40%, #000 0%, transparent 75%);
+  }
+
+  .inner { position: relative; z-index: 1; }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 22px;
+  }
+  .brand h1 {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 60px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #fff;
+  }
+  .brand .dot { color: #5b6472; font-weight: 700; font-size: 60px; }
+  .brand .tag {
+    font-size: 26px;
+    font-weight: 600;
+    color: #9aa3b2;
+  }
+
+  .headline {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.18;
+    letter-spacing: -0.5px;
+    color: #f4f6fa;
+    margin-bottom: 38px;
+    max-width: 940px;
+  }
+  .headline .kao { color: #7c8595; font-weight: 600; }
+
+  /* terminal window */
+  .term {
+    background: #0f1218;
+    border: 1px solid #232a36;
+    border-radius: 14px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+    overflow: hidden;
+    margin-bottom: 34px;
+  }
+  .term .bar {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 14px 18px;
+    background: #141823;
+    border-bottom: 1px solid #232a36;
+  }
+  .term .bar i { width: 13px; height: 13px; border-radius: 50%; display: inline-block; }
+  .term .bar .r { background: #ff5f57; }
+  .term .bar .y { background: #febc2e; }
+  .term .bar .g { background: #28c840; }
+  .term .bar span {
+    margin-left: 10px; font-family: "JetBrains Mono", monospace;
+    font-size: 15px; color: #6b7484;
+  }
+
+  .statusline {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 21px;
+    font-weight: 500;
+    padding: 30px 26px;
+    white-space: nowrap;
+    letter-spacing: 0;
+  }
+  .statusline .sep { color: #3d4655; padding: 0 4px; }
+  .statusline .model { color: #fff; font-weight: 700; }
+  .statusline .label { color: #9aa3b2; }
+  .statusline .blk-f { letter-spacing: -1px; }
+  .statusline .green { color: #2ec66a; }
+  .statusline .yellow { color: #f5b73d; }
+  .statusline .red { color: #ff5f57; }
+  .statusline .empty { color: #2b3340; }
+  .statusline .muted { color: #6b7484; }
+  .statusline .cost { color: #7fd1ff; }
+
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .install {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 25px;
+    font-weight: 500;
+    color: #cdd3dd;
+  }
+  .install .prompt { color: #2ec66a; }
+  .install .pkg { color: #fff; }
+  .pills { display: flex; gap: 12px; }
+  .pill {
+    font-size: 19px; font-weight: 600;
+    color: #9aa3b2;
+    border: 1px solid #2a313e;
+    background: #12161f;
+    border-radius: 999px;
+    padding: 9px 18px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="inner">
+      <div class="brand">
+        <h1>cclimit</h1>
+        <span class="tag">credential-free Claude Code status line</span>
+      </div>
+
+      <div class="headline">
+        Tired of running <span style="font-family:'JetBrains Mono',monospace;color:#7fd1ff;">/usage</span>? See your plan
+        limits right in the status line. <span class="kao">¯\_(ツ)_/¯</span>
+      </div>
+
+      <div class="term">
+        <div class="bar"><i class="r"></i><i class="y"></i><i class="g"></i><span>claude code</span></div>
+        <div class="statusline">
+          <span class="model">Opus 4.8</span><span class="sep">|</span><span class="label">5h</span>
+          <span class="red blk-f">███████</span><span class="empty blk-f">░</span> <span class="red">85%</span> <span class="muted">2h53m</span><span class="sep">|</span><span class="label">7d</span>
+          <span class="green blk-f">█</span><span class="empty blk-f">░░░░░░░</span> <span class="green">8%</span> <span class="muted">6d18h</span><span class="sep">|</span><span class="label">ctx</span> <span class="green">13%</span><span class="sep">|</span><span class="muted">main*</span><span class="sep">|</span><span class="cost">$5.26</span>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="install">
+          <span class="prompt">$</span> npx <span class="pkg">@tomascabralh/cclimit</span> install
+        </div>
+        <div class="pills">
+          <span class="pill">no token</span>
+          <span class="pill">no Keychain</span>
+          <span class="pill">no network</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
