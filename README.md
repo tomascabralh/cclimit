@@ -56,6 +56,22 @@ Code: `model.display_name`, `context_window.used_percentage`,
 `cost.total_cost_usd`, and `rate_limits.{five_hour,seven_day}.{used_percentage,resets_at}`.
 Nothing else. No files are read except your own `cclimit.json` config.
 
+## FAQ
+
+### Why is the percentage slightly behind `/usage`?
+
+The two numbers come from different sources. Claude Code builds the status-line
+payload from rate-limit headers cached from your session's **most recent API
+request**, while `/usage` does a **live fetch** from the claude.ai usage endpoint
+the moment you open it. By then you've usually consumed a bit more -- the turn
+that rendered the status line, plus any other sessions or claude.ai chat -- so
+`/usage` can read up to ~1% higher. The gap closes on the next response, when
+fresh headers arrive.
+
+cclimit renders the payload faithfully and can't fetch the live number: that
+would require calling Anthropic's API with your credentials, which is exactly
+what cclimit promises never to do.
+
 ## License
 
 MIT
